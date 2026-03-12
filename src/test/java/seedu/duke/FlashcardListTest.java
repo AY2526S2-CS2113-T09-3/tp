@@ -1,7 +1,7 @@
 package seedu.duke;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Assertions;
 
 public class FlashcardListTest {
 
@@ -12,7 +12,7 @@ public class FlashcardListTest {
 
         list.add(card);
 
-        assertEquals(1, list.size());
+        Assertions.assertEquals(1, list.size());
     }
 
     @Test
@@ -24,6 +24,6 @@ public class FlashcardListTest {
 
         Flashcard result = list.get(0);
 
-        assertEquals(card, result);
+        Assertions.assertEquals(card, result);
     }
 }

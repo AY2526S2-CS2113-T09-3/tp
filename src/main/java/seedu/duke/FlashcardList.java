@@ -11,22 +11,17 @@ public class FlashcardList {
     }
 
     public void add(Flashcard flashcard) {
-
+        flashcards.add(flashcard);
     }
 
-    public void delete(int id) {
-
-    }
-
-    public Flashcard get(int id) {
+    public Flashcard get(int index) {
+        if (index >= 0 && index < flashcards.size()) {
+            return flashcards.get(index);
+        }
         return null;
     }
 
-    public ArrayList<Flashcard> getAll() {
-        return flashcards;
-    }
-
     public int size() {
-        return 0;
+        return flashcards.size();
     }
 }
