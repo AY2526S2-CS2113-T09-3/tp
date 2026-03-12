@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.flashycard;
 
 public class Flashcard {
 

@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.flashycard;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package seedu.duke;
+package seedu.flashycard;
 
 import java.io.IOException;
 
