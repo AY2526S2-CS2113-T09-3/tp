@@ -28,4 +28,8 @@ public class KnowledgeBase {
     public boolean hasCard(int id) {
         return cards.containsKey(id);
     }
+
+    public Iterable<Card> getAllCards() {
+        return cards.values();
+    }
 }
