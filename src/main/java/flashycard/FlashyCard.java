@@ -29,7 +29,7 @@ public class FlashyCard {
             if (input == null) {
                 continue;
             }
-            if (input.equalsIgnoreCase("bye")) {
+            if (input.equalsIgnoreCase("exit")) {
                 break;
             }
             System.out.println("Command received: " + input);
