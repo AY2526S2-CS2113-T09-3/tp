@@ -1,19 +1,34 @@
 @echo off
 setlocal enableextensions
-pushd %~dp0
+
+taskkill /F /IM java.exe /T 2>nul
 
 cd ..
 call gradlew clean shadowJar
-
-cd build\libs
-for /f "tokens=*" %%a in (
-    'dir /b *.jar'
-) do (
-    set jarloc=%%a
+if errorlevel 1 (
+    echo Gradle build failed!
+    exit /b 1
 )
 
-java -jar %jarloc% < ..\..\text-ui-test\input.txt > ..\..\text-ui-test\ACTUAL.TXT
+cd build\libs
+set jarloc=
+for /f "tokens=*" %%a in ('dir /b *.jar') do set jarloc=%%a
+
+timeout /t 3 /nobreak >nul
 
 cd ..\..\text-ui-test
+java -jar ..\build\libs\%jarloc% < input.txt > ACTUAL.TXT
 
-FC ACTUAL.TXT EXPECTED.TXT >NUL && ECHO Test passed! || Echo Test failed!
+if not exist ACTUAL.TXT (
+    echo ACTUAL.TXT was not created!
+    exit /b 1
+)
+
+fc ACTUAL.TXT EXPECTED.TXT > nul
+if errorlevel 1 (
+    echo [FAIL] Output does not match expected!
+    exit /b 1
+) else (
+    echo [PASS] Test passed!
+    exit /b 0
+)
