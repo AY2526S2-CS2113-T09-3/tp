@@ -31,11 +31,11 @@ public class FlashyCard {
             String fullCommand = null;
             try {
                 fullCommand = ui.readCommand();
+                if (fullCommand == null) break;
 
-                if (fullCommand == null) {
-                    break;
+                if (fullCommand.length() > 0) {
+                    System.out.println("DEBUG: First Char Hex: [" + Integer.toHexString(fullCommand.charAt(0)) + "]");
                 }
-
 
                 String cleanedCommand = fullCommand.replaceFirst("^[^a-zA-Z0-9]+", "").trim();
 
@@ -46,9 +46,9 @@ public class FlashyCard {
                 Command c = Parser.parse(cleanedCommand);
                 c.execute(knowledgeBase, ui, storage);
                 isExit = c.isExit();
+
             } catch (Exception e) {
-                String hex = (fullCommand.length() > 0) ? Integer.toHexString(fullCommand.charAt(0)) : "empty";
-                ui.showError(e.getMessage() + " (CharHex: " + hex + "): [" + fullCommand + "]");
+                ui.showError(e.getMessage());
             }
         }
         ui.showExitMessage();
