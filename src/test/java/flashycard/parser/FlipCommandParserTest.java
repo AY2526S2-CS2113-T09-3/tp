@@ -1,6 +1,7 @@
 package flashycard.parser;
 
 import flashycard.command.Command;
+import flashycard.command.FlipCommand;
 import flashycard.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +14,14 @@ public class FlipCommandParserTest {
     void testParse_validId_returnsCommand() throws InvalidArgumentException {
         FlipCommandParser parser = new FlipCommandParser();
         Command command = parser.parse("flip 42");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof FlipCommand);
     }
 
     @Test
     void testParse_validIdWithSpaces_returnsCommand() throws InvalidArgumentException {
         FlipCommandParser parser = new FlipCommandParser();
         Command command = parser.parse("flip    7   ");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof FlipCommand);
     }
 
     @Test

@@ -1,16 +1,20 @@
 package flashycard.command;
 
+import flashycard.exceptions.CardNotFoundException;
 import flashycard.model.KnowledgeBase;
 import flashycard.storage.Storage;
 import flashycard.ui.Ui;
 
 public class ExitCommand extends Command {
+
     @Override
-    public void execute(KnowledgeBase cards, Ui ui, Storage storage) {
+    public void execute(KnowledgeBase cards, Ui ui, Storage storage) throws CardNotFoundException {
+
     }
 
     @Override
     public boolean isExit() {
         return true;
     }
+
 }

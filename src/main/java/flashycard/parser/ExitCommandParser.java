@@ -10,7 +10,7 @@ public class ExitCommandParser extends CommandParser {
     }
 
     @Override
-    public Command parse(String fullCommand) throws InvalidArgumentException {
+    public ExitCommand parse(String fullCommand) throws InvalidArgumentException {
         this.match(fullCommand);
 
         return new ExitCommand();
