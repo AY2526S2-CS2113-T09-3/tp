@@ -36,7 +36,7 @@ public class FlashyCard {
                     break;
                 }
 
-                if (fullCommand.isEmpty()) {
+                if (fullCommand.trim().isEmpty()) {
                     continue;
                 }
 
