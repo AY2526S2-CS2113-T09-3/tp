@@ -6,12 +6,11 @@ import java.util.Scanner;
 import java.util.Collection;
 
 public class Ui {
-    private Scanner scanner;
     private static final String DIVIDER = "------------------------------------------------";
     private static final String PREFIX = "> ";
+    private Scanner scanner;
 
-    public Ui()
-    {
+    public Ui() {
         this.scanner = new Scanner(System.in);
     }
 
