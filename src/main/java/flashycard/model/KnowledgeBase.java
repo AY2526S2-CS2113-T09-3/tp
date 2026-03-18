@@ -3,6 +3,8 @@ package flashycard.model;
 import java.util.Collection;
 import java.util.HashMap;
 
+import flashycard.exceptions.CardNotFoundException;
+
 public class KnowledgeBase {
     private HashMap<Integer, Card> cards;
 
@@ -11,14 +13,27 @@ public class KnowledgeBase {
     }
 
     public void addCard(Card card) {
+        assert hasCard(card.getId()) == false : "Should not have duplicated ids";
         cards.put(card.getId(), card);
     }
 
-    public Card getCardById(int id) {
+    public Card getCardById(int id) throws CardNotFoundException {
+
+        if (!hasCard(id)) {
+            throw new CardNotFoundException("Card with given ID cannot be found in the knowledge base");
+        }
+
         return cards.get(id);
+
     }
 
-    public void deleteCard(int id) {
+    public void deleteCard(int id) throws CardNotFoundException {
+
+        if (!hasCard(id)) {
+            throw new CardNotFoundException(
+                    "Cannot delete card:  Card with given ID cannot be found in the knowledge base");
+        }
+
         cards.remove(id);
     }
 
