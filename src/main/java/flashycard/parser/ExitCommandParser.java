@@ -1,6 +1,5 @@
 package flashycard.parser;
 
-import flashycard.command.Command;
 import flashycard.command.ExitCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
