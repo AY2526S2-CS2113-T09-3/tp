@@ -32,15 +32,21 @@ public class FlashyCard {
         while (!isExit) {
             try {
                 String fullCommand = ui.readCommand();
+
+                // If readCommand returns null, the input file is finished
+                if (fullCommand == null) {
+                    break;
+                }
+
+                if (fullCommand.isEmpty()) {
+                    continue;
+                }
+
                 Command c = Parser.parse(fullCommand);
                 c.execute(knowledgeBase, ui, storage);
                 isExit = c.isExit();
-            } catch (InvalidCommandException e) {
-                ui.showError(e.getMessage());
-            } catch (CardNotFoundException e) {
-                ui.showError(e.getMessage());
             } catch (Exception e) {
-                ui.showError("An unexpected error has occurred");
+                ui.showError(e.getMessage());
             }
         }
         ui.showExitMessage();
