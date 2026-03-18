@@ -32,22 +32,23 @@ public class FlashyCard {
             try {
                 fullCommand = ui.readCommand();
 
-                // If readCommand returns null, the input file is finished
                 if (fullCommand == null) {
                     break;
                 }
 
-                fullCommand = fullCommand.replace("\uFEFF", "").replace("\r", "");
 
-                if (fullCommand.trim().isEmpty() || fullCommand.toLowerCase().contains("redirection")) {
+                String cleanedCommand = fullCommand.replaceFirst("^[^a-zA-Z0-9]+", "").trim();
+
+                if (cleanedCommand.isEmpty() || cleanedCommand.toLowerCase().contains("redirection")) {
                     continue;
                 }
 
-                Command c = Parser.parse(fullCommand);
+                Command c = Parser.parse(cleanedCommand);
                 c.execute(knowledgeBase, ui, storage);
                 isExit = c.isExit();
             } catch (Exception e) {
-                ui.showError(e.getMessage() + ": [" + fullCommand + "]");
+                String hex = (fullCommand.length() > 0) ? Integer.toHexString(fullCommand.charAt(0)) : "empty";
+                ui.showError(e.getMessage() + " (CharHex: " + hex + "): [" + fullCommand + "]");
             }
         }
         ui.showExitMessage();
