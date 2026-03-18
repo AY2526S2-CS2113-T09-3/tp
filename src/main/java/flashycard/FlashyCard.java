@@ -1,9 +1,7 @@
 package flashycard;
 
 import flashycard.command.Command;
-import flashycard.exceptions.CardNotFoundException;
 import flashycard.exceptions.CorruptedDataException;
-import flashycard.exceptions.InvalidCommandException;
 import flashycard.model.KnowledgeBase;
 import flashycard.parser.Parser;
 import flashycard.storage.Storage;
