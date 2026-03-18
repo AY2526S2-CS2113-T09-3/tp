@@ -14,7 +14,6 @@ public class FlipCommandParserTest {
     void testParse_validId_returnsCommand() throws InvalidArgumentException {
         FlipCommandParser parser = new FlipCommandParser();
         Command command = parser.parse("flip 42");
-        // TODO: Change to specific command type
         assertTrue(command instanceof FlipCommand);
     }
 
@@ -22,7 +21,6 @@ public class FlipCommandParserTest {
     void testParse_validIdWithSpaces_returnsCommand() throws InvalidArgumentException {
         FlipCommandParser parser = new FlipCommandParser();
         Command command = parser.parse("flip    7   ");
-        // TODO: Change to specific command type
         assertTrue(command instanceof FlipCommand);
     }
 
