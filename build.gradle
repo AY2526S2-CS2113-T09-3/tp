@@ -39,6 +39,9 @@ shadowJar {
 
 checkstyle {
     toolVersion = '10.2'
+    configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+
+    showViolations = true
 }
 
 run{
