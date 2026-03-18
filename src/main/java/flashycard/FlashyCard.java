@@ -36,6 +36,10 @@ public class FlashyCard {
                     break;
                 }
 
+                if (fullCommand.contains("Input redirection is not supported")) {
+                    continue;
+                }
+
                 if (fullCommand.trim().isEmpty()) {
                     continue;
                 }
