@@ -1,6 +1,7 @@
 package flashycard.parser;
 
 import flashycard.command.Command;
+import flashycard.command.DeleteCommand;
 import flashycard.exceptions.InvalidArgumentException;
 import org.junit.jupiter.api.Test;
 
@@ -13,16 +14,14 @@ public class DeleteCommandParserTest {
     void testParse_validId_returnsCommand() throws InvalidArgumentException {
         DeleteCommandParser parser = new DeleteCommandParser();
         Command command = parser.parse("delete 42");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof DeleteCommand);
     }
 
     @Test
     void testParse_validIdWithSpaces_returnsCommand() throws InvalidArgumentException {
         DeleteCommandParser parser = new DeleteCommandParser();
         Command command = parser.parse("delete    7   ");
-        // TODO: Change to specific command type
-        assertTrue(command instanceof Command);
+        assertTrue(command instanceof DeleteCommand);
     }
 
     @Test

@@ -27,14 +27,14 @@ public class KnowledgeBase {
 
     }
 
-    public void deleteCard(int id) throws CardNotFoundException {
+    public Card deleteCard(int id) throws CardNotFoundException {
 
         if (!hasCard(id)) {
             throw new CardNotFoundException(
                     "Cannot delete card:  Card with given ID cannot be found in the knowledge base");
         }
 
-        cards.remove(id);
+        return cards.remove(id);
     }
 
     public int getSize() {
