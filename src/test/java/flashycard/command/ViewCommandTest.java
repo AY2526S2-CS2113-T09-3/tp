@@ -21,11 +21,11 @@ public class ViewCommandTest {
         kb = new KnowledgeBase();
         ui = new Ui();
         storage = null;
+        kb.addCard(new Card(1, "What is Java?", "A programming language."));
     }
 
     @Test
     void execute_validCardId_displaysCard() throws CardNotFoundException {
-        kb.addCard(new Card(1, "What is Java?", "A programming language."));
         ViewCommand viewCommand = new ViewCommand(1);
         assertDoesNotThrow(() -> viewCommand.execute(kb, ui, storage));
     }
@@ -46,7 +46,8 @@ public class ViewCommandTest {
 
     @Test
     void execute_emptyKnowledgeBase_throwsCardNotFoundException() {
-        ViewCommand viewCommand = new ViewCommand(1);
+        ViewCommand viewCommand = new ViewCommand(-1);
+        kb = new KnowledgeBase();
         assertThrows(CardNotFoundException.class, () -> viewCommand.execute(kb, ui, storage));
     }
 }
