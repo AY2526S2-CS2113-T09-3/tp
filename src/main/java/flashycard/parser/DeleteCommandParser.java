@@ -3,7 +3,7 @@ package flashycard.parser;
 import java.util.regex.Matcher;
 
 import flashycard.command.Command;
-import flashycard.command.DummyCommand;
+import flashycard.command.DeleteCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 public class DeleteCommandParser extends CommandParser {
@@ -18,7 +18,7 @@ public class DeleteCommandParser extends CommandParser {
         try {
             String idStr = matches.group("id").trim();
             int id = Integer.parseInt(idStr);
-            return new DummyCommand(id); // TODO: return the correct class
+            return new DeleteCommand(id);
         } catch (NumberFormatException e) {
             throw new InvalidArgumentException("Invalid ID given: ID must be a number");
         }
