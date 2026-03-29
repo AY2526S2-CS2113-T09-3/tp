@@ -6,8 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Set;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -114,6 +113,19 @@ public class UiTest {
         String output = outputStream.toString();
 
         assertTrue(output.indexOf("Apple") < output.indexOf("Zebra"), "Apple should come first");
+    }
+
+    @Test
+    public void testShowSearchResults() {
+        List<Card> results = new ArrayList<>();
+        results.add(new Card(1, "What is Java?", "A language", "Coding"));
+
+        ui.showSearchResults(results, "Java");
+        String output = outputStream.toString();
+
+        assertTrue(output.contains("Found 1 card(s)"), "Should show count of matches");
+        assertTrue(output.contains("matching 'Java'"), "Should show the keyword searched");
+        assertTrue(output.contains("What is Java?"), "Should show the card content");
     }
 
     @Test
