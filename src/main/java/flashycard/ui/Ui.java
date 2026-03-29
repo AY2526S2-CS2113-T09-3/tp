@@ -60,6 +60,10 @@ public class Ui {
         }
     }
 
+    public void showTaggedMessage(Card card) {
+        System.out.println("Tag added to card #" + card.getId() + ": [" + card.getTag() + "]");
+    }
+
     public void showError(String message) {
         System.out.println("ERROR: " + message);
     }
