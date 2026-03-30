@@ -18,6 +18,10 @@ public class TestCommand extends Command {
         this.setName = setName.trim();
     }
 
+    public String getSetName() {
+        return this.setName;
+    }
+
     @Override
     public void execute(KnowledgeBase hb, Ui ui, Storage storage, SessionContainer session) {
         List<Integer> ids = hb.getAllTestSets().get(setName);
@@ -45,8 +49,10 @@ public class TestCommand extends Command {
 
         session.setLastSearchResults(testCards);
 
-        ui.showMessage("Starting test session for set: [" + setName + "]");
-        ui.startStudySession(testCards);
+        if (ui != null) {
+            ui.showMessage("Starting test session for set: [" + setName + "]");
+            ui.startStudySession(testCards);
+        }
     }
 
     @Override

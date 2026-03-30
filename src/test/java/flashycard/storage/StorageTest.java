@@ -121,4 +121,26 @@ class StorageTest {
 
         file.delete();
     }
+
+    @Test
+    void storage_canSaveAndLoadPopulatedTestSets() throws Exception {
+        Storage storage = new Storage(testFilePath);
+        KnowledgeBase kb = new KnowledgeBase();
+
+        kb.addCard(new Card(1, "Q1", "A1", "tag1"));
+        kb.addCard(new Card(2, "Q2", "A2", "tag2"));
+        kb.addTestSet("FinalExam", List.of(1, 2));
+
+        storage.save(kb);
+
+        KnowledgeBase loadedKb = storage.load();
+
+        assertTrue(loadedKb.getAllTestSets().containsKey("FinalExam"), "Set name should exist");
+        List<Integer> loadedIds = loadedKb.getAllTestSets().get("FinalExam");
+        assertEquals(2, loadedIds.size(), "Should contain exactly 2 IDs");
+        assertTrue(loadedIds.contains(1));
+        assertTrue(loadedIds.contains(2));
+
+        file.delete();
+    }
 }
