@@ -2,6 +2,7 @@ package flashycard.ui;
 
 import flashycard.model.Card;
 import flashycard.model.KnowledgeBase;
+import flashycard.model.StudySession;
 import java.util.Scanner;
 import java.util.Collection;
 import java.util.List;
@@ -21,6 +22,42 @@ public class Ui {
         System.out.println("   FlashyCard - Your Command Line Study Buddy");
         System.out.println(DIVIDER);
         System.out.println("Available commands: add, list, view, flip, tag, find, save, test, delete, exit");
+    }
+
+
+    public void startStudySession(List<Card> cards) {
+        StudySession session = new StudySession(cards);
+        int correctCount = 0;
+        int total = session.getTotalCount();
+
+        showSessionHeader("Test Mode", total);
+
+        while (session.hasNext()) {
+            Card current = session.getCurrentCard();
+            int currentNum = total - session.getRemainingCount() + 1;
+
+            showSessionProgress(currentNum, total);
+            System.out.println("Question: " + current.getQuestion());
+
+            System.out.print("Press Enter to see the answer...");
+            scanner.nextLine();
+
+            System.out.println("Answer: " + current.getAnswer());
+            System.out.print("Did you get it right? (y/n): ");
+
+            String feedback = scanner.nextLine().trim().toLowerCase();
+            if (feedback.equals("y")) {
+                correctCount++;
+                System.out.println("Great job!");
+            } else {
+                System.out.println("No worries, keep practicing!");
+            }
+
+            session.moveToNext();
+            System.out.println(DIVIDER);
+        }
+
+        showSessionResult(correctCount, total);
     }
 
     public String readCommand() {
