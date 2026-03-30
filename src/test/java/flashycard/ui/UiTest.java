@@ -10,6 +10,9 @@ import java.util.Set;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.io.ByteArrayInputStream;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -129,6 +132,53 @@ public class UiTest {
         assertTrue(output.contains("Found 1 card(s)"), "Should show count of matches");
         assertTrue(output.contains("matching 'Java'"), "Should show the keyword searched");
         assertTrue(output.contains("What is Java?"), "Should show the card content");
+    }
+
+    @Test
+    public void testShowSaveSetSuccess() {
+        ui.showSaveSetSuccess("midterm", 5);
+        String output = outputStream.toString();
+        assertTrue(output.contains("Successfully saved 5 card(s)"));
+        assertTrue(output.contains("[midterm]"));
+    }
+
+    @Test
+    public void testShowTestSets() {
+        Map<String, List<Integer>> testSets = new HashMap<>();
+        testSets.put("JavaBasics", List.of(1, 2, 3));
+
+        ui.showTestSets(testSets);
+        String output = outputStream.toString();
+        assertTrue(output.contains("JavaBasics (3 cards)"));
+    }
+
+    @Test
+    public void testShowSessionHeader() {
+        ui.showSessionHeader("Unit Test Session", 10);
+        String output = outputStream.toString();
+        assertTrue(output.contains("Starting Session: Unit Test Session"));
+        assertTrue(output.contains("Total cards to review: 10"));
+    }
+
+
+    @Test
+    public void testStartStudySessionInteractiveFlow() {
+        String simulatedInput = "\ny\n";
+        System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
+
+        ui = new Ui();
+
+        List<Card> cards = new ArrayList<>();
+        cards.add(new Card(1, "Q1", "A1", "test"));
+
+        ui.startStudySession(cards);
+
+        String output = outputStream.toString();
+        assertTrue(output.contains("Question: Q1"));
+        assertTrue(output.contains("Answer: A1"));
+        assertTrue(output.contains("Score: 1/1"), "Should record the 'y' as a correct answer");
+
+        System.setIn(System.in);
     }
 
     @Test
