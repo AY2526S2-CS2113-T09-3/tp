@@ -77,17 +77,24 @@ Safely closes the application.
 
 ### Saving Data
 
-FlashyCard are **automatically saved** to your hard disk after any `add`, `edit`, or `delete` command.
+FlashyCard data is **automatically saved** to your hard disk after every `add` or `delete` command. There is no need to save manually.
+
+### Data File Location
+
+Your data is stored in `data/flashcards.txt` within the same folder as the JAR file. Each flashcard is saved as a single line in the format `id|question|answer`.
+
+### Editing the Data File Directly
+
+> **Warning:** FlashyCard data file is a plain text file. Advanced users may edit it directly, but take care to follow the format exactly. Incorrect formatting will cause FlashyCard to detect corrupted data and start with an empty knowledge base.
 
 ### FAQ
 
 **Q: How do I transfer my data to another computer?**
-**A:** Install the app on the new computer, then copy the folder containing your data from the previous computer to the new one.
+**A:** Install the app on the new computer, then copy the `data/` folder from your previous computer into the same directory as the JAR file.
 
 ### Known Issues
 
-* **Data Corruption:** May occur if the underlying data file is manually edited with invalid formatting or if the program is closed improperly. We recommend making regular backups of your data folder.
-
+* **Data Corruption:** May occur if the data file is manually edited with invalid formatting, or if the program is closed forcefully. We recommend making regular backups of your `data/` folder.
 ---
 
 ## Command Summary
