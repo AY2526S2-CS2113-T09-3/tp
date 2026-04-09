@@ -4,9 +4,8 @@ import flashycard.command.ExitCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input for the "exit" command.
- * It ensures that no additional arguments are provided when the user wants to
- * quit.
+ * Parses user input for the "exit" command. It ensures that no additional
+ * arguments are provided when the user wants to quit.
  */
 public class ExitCommandParser extends CommandParser {
 

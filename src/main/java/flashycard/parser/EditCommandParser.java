@@ -7,24 +7,21 @@ import flashycard.command.EditCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "edit" command.
- * It allows users to update the question, the answer, or both for an existing
- * card.
+ * Parses user input specifically for the "edit" command. It allows users to
+ * update the question, the answer, or both for an existing card.
  */
 public class EditCommandParser extends CommandParser {
-    private static final String EDIT_REGEX = "(?<id>\\d+)(?:\\s+q/(?<question>.+?)(?=\\s+a/|$))?(?:\\s+a/(?<answer>.+))?";
-
     /**
-     * Initializes the parser with the "edit" keyword and a regex that captures
-     * the ID and optional question/answer updates.
+     * Initializes the parser with the "edit" keyword and a regex that captures the
+     * ID and optional question/answer updates.
      */
     public EditCommandParser() {
-        super("edit", EDIT_REGEX);
+        super("edit", "(?<id>\\d+)(?:\\s+q/(?<question>.+?)(?=\\s+a/|$))?(?:\\s+a/(?<answer>.+))?");
     }
 
     /**
-     * Extracts the ID and the new content from the command string.
-     * Validates that at least one field (question or answer) is being changed.
+     * Extracts the ID and the new content from the command string. Validates that
+     * at least one field (question or answer) is being changed.
      *
      * @param fullCommand The raw input string from the user.
      * @return A new EditCommand instance with the updated details.
@@ -53,9 +50,8 @@ public class EditCommandParser extends CommandParser {
         }
 
         if (question == null && answer == null) {
-            throw new InvalidArgumentException(
-                    "Edit command requires at least q/QUESTION or a/ANSWER. " +
-                            "Usage: edit ID [q/QUESTION] [a/ANSWER]");
+            throw new InvalidArgumentException("Edit command requires at least q/QUESTION or a/ANSWER. "
+                    + "Usage: edit ID [q/QUESTION] [a/ANSWER]");
         }
 
         return new EditCommand(id, question, answer);
