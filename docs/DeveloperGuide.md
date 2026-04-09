@@ -53,7 +53,9 @@ The following tools and libraries were used during development:
 
 ### Architecture Overview
 
-FlashyCard follows a layered architecture with clear separation of concerns. The diagram below shows all major components and how they interact.
+FlashyCard follows a layered architecture with clear separation of concerns. The core architecture of follows a design pattern for Command Line Interface applications.
+
+The execution flows through several distinct components and objects that handle user interaction, parsing, execution, data management, and persistence respectively. The diagram below shows all major components and how they interact.
 
 **Architecture Component Diagram:**
 ![Architecture Componet Diagram.png](diagram/Architecture%20Componet%20Diagram.png)
@@ -147,7 +149,7 @@ The `isExit()` method defaults to `false` and is overridden only by `ExitCommand
 
 The Model component stores all application data in memory.
 
-#### Class Diagram 
+#### Class Diagram
 
 ![model_class_diagram.png](diagram/model_class_diagram.png)
 
@@ -165,7 +167,7 @@ The Model component stores all application data in memory.
 
 The `Storage` component is responsible for persisting all `Card` objects and test sets to disk, and reloading them on application startup.
 
-#### Class Diagram 
+#### Class Diagram
 
 ![storage_class_diagram.png](diagram/storage_class_diagram.png)
 
@@ -202,7 +204,7 @@ SET:mySet|1,2
 
 `SessionContainer` holds **transient** state that lives for one application run only, it is never persisted to disk.
 
-#### Class Diagram 
+#### Class Diagram
 
 ![sessioncontainer_class_diagram.png](diagram/sessioncontainer_class_diagram.png)
 
@@ -235,7 +237,7 @@ This section explains each command in detail, including step-by-step walkthrough
 7. `storage.save(knowledgeBase)` writes the updated state to disk.
 8. `ui.showAddedMessage(card)` prints a confirmation to the terminal.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_add_a_card.png](diagram/seq_add_a_card.png)
 
@@ -290,7 +292,7 @@ At least one of `q/` or `a/` must be present; omitted fields are preserved from 
     - Deletes the old card, adds the new card.
 4. Calls `storage.save()` and `ui.showEditedMessage(edited)`.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_edit_a_card.png](diagram/seq_edit_a_card.png)
 
@@ -330,7 +332,7 @@ Because `Card` is immutable, editing requires deleting the old object and insert
 
 Identical flow to `view`, but calls `ui.showAnswer(selectedCard)` to reveal the answer simulating the "back" of a flashcard.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_flip_a_card.png](diagram/seq_flip_a_card.png)
 
@@ -355,7 +357,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
 5. Matching cards are collected into a `List<Card>` and passed to `ui.showSearchResults(results, keyword)`.
 6. Results are **not** stored in `SessionContainer` by `FindCommand`  the caller may later `save all s/setName` using whatever last results were stored.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_find_a_card.png](diagram/seq_find_a_card.png)
 
@@ -378,7 +380,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
 3. `session.setLastSearchResults(cardsToShow)` stores results for potential `save all`.
 4. `ui.showSearchResults(cardsToShow, label)` prints the list.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_list_card.png](diagram/seq_list_card.png)
 
@@ -401,7 +403,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
 3. Calls `hb.saveToTestSet(setName, idsToSave)` this appends to the set, skipping duplicates.
 4. Calls `storage.save(hb)` and `ui.showSaveSetSuccess(setName, count)`.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_save_test_set.png](diagram/seq_save_test_set.png)
 
@@ -425,7 +427,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
     - Otherwise: calls `hb.removeCardFromSet(setName, id)` for each id.
 4. Calls `storage.save(hb)` after any successful removal.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_remove_from_test_set.png](diagram/seq_remove_from_test_set.png)
 
@@ -451,7 +453,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
     - Stores cards in `session.setLastSearchResults(testCards)`.
     - Calls `ui.startStudySession(testCards)` which runs the interactive quiz loop.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_test_a_set.png](diagram/seq_test_a_set.png)
 
@@ -474,7 +476,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
     - Deletes old, adds new (same delete-and-recreate pattern as `EditCommand`).
     - Saves and shows confirmation.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_tag_a_card.png](diagram/seq_tag_a_card.png)
 
@@ -506,7 +508,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
 
 `ExitCommand.execute()` does nothing. Its `isExit()` returns `true`, which causes the `FlashyCard.run()` loop to terminate. `ui.showExitMessage()` is called after the loop ends.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_exit.png](diagram/seq_exit.png)
 
@@ -527,7 +529,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
     - Writes line: `SET:setName|id1,id2,...`.
 5. Writer is closed.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_save_operations.png](diagram/seq_save_operations.png)
 
@@ -551,7 +553,7 @@ The optional `q/` or `a/` prefix restricts the search to questions or answers re
 7. Card is added to the `KnowledgeBase`.
 8. Populated `KnowledgeBase` is returned.
 
-#### Sequence Diagram 
+#### Sequence Diagram
 
 ![seq_load_operations.png](diagram/seq_load_operations.png)
 
@@ -655,6 +657,7 @@ Then launch the app it will load 3 cards and 1 test set automatically.
 ### Test Case 1: Adding a Card
 
 **Input:**
+
 ```
 add q/What is Python? a/A scripting language
 ```
@@ -666,6 +669,7 @@ add q/What is Python? a/A scripting language
 ### Test Case 2: Adding a Card with Missing Fields
 
 **Input:**
+
 ```
 add q/Only a question
 ```
@@ -677,6 +681,7 @@ add q/Only a question
 ### Test Case 3: Listing All Cards
 
 **Input:**
+
 ```
 list
 ```
@@ -688,6 +693,7 @@ list
 ### Test Case 4: Viewing and Flipping
 
 **Input:**
+
 ```
 view 1
 flip 1
@@ -700,6 +706,7 @@ flip 1
 ### Test Case 5: Viewing a Non-Existent Card
 
 **Input:**
+
 ```
 view 999
 ```
@@ -711,6 +718,7 @@ view 999
 ### Test Case 6: Editing a Card
 
 **Input:**
+
 ```
 edit 1 q/What is Go? a/A compiled language
 edit 2 q/What is Abstraction?
@@ -724,6 +732,7 @@ edit 3 a/Four
 ### Test Case 7: Editing with No Fields
 
 **Input:**
+
 ```
 edit 1
 ```
@@ -735,6 +744,7 @@ edit 1
 ### Test Case 8: Tagging
 
 **Input:**
+
 ```
 tag 1 t/programming
 tags
@@ -747,6 +757,7 @@ tags
 ### Test Case 9: Finding Cards
 
 **Input:**
+
 ```
 find java
 find q/What
@@ -760,6 +771,7 @@ find a/Four
 ### Test Case 10: Saving to a Test Set
 
 **Input:**
+
 ```
 list
 save all s/revision
@@ -773,6 +785,7 @@ save 1 s/singles
 ### Test Case 11: Listing a Test Set
 
 **Input:**
+
 ```
 list s/revision
 list s/nonexistent
@@ -785,6 +798,7 @@ list s/nonexistent
 ### Test Case 12: Testing a Set
 
 **Input:**
+
 ```
 test revision
 ```
@@ -796,6 +810,7 @@ test revision
 ### Test Case 13: Removing from a Set
 
 **Input:**
+
 ```
 remove 1 s/revision
 remove all s/singles
@@ -809,6 +824,7 @@ list s/revision
 ### Test Case 14: Deleting a Card
 
 **Input:**
+
 ```
 delete 2
 list
@@ -821,6 +837,7 @@ list
 ### Test Case 15: Deleting a Non-Existent Card
 
 **Input:**
+
 ```
 delete 999
 ```
@@ -868,6 +885,7 @@ The last line (`save all`) should error because no `list` or `find` was run firs
 ### Test Case 19: Pipe Character in Card Content
 
 **Input:**
+
 ```
 add q/What does A|B mean? a/Bitwise OR operation
 flip [id]
