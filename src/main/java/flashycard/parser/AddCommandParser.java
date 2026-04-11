@@ -41,6 +41,10 @@ public class AddCommandParser extends CommandParser {
         String question = matches.group("question").trim();
         String answer = matches.group("answer").trim();
 
+        if (question.isEmpty() || answer.isEmpty()) {
+            throw new InvalidArgumentException("Question and answer cannot be empty.");
+        }
+
         return new AddCommand(question, answer);
     }
 }
