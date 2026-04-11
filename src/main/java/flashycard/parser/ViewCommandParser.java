@@ -25,7 +25,7 @@ public class ViewCommandParser extends CommandParser {
      *
      * @param fullCommand The raw input string from the user.
      * @return A new ViewCommand instance for the specified card.
-     * @throws InvalidArgumentException If the ID is not a valid number or the
+     * @throws InvalidArgumentException If the ID is not a valid integer or the
      *                                  format is incorrect.
      */
     @Override
@@ -42,7 +42,7 @@ public class ViewCommandParser extends CommandParser {
         }
 
         catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid number");
+            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid integer");
         }
 
         return new ViewCommand(id);

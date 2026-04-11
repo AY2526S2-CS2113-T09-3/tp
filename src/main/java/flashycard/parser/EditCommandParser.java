@@ -39,7 +39,7 @@ public class EditCommandParser extends CommandParser {
         } catch (InvalidArgumentException e) {
             throw new InvalidArgumentException("Invalid format. Please use: edit ID [q/QUESTION] [a/ANSWER]");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid Card ID: ID entered is not a valid number");
+            throw new InvalidArgumentException("Invalid Card ID: ID entered is not a valid integer");
         }
 
         String question = matcher.group("question");

@@ -24,7 +24,7 @@ public class FlipCommandParser extends CommandParser {
      *
      * @param fullCommand The raw input string from the user.
      * @return A new FlipCommand instance for the specified card.
-     * @throws InvalidArgumentException If the ID is not a valid number.
+     * @throws InvalidArgumentException If the ID is not a valid integer.
      */
     @Override
     public FlipCommand parse(String fullCommand) throws InvalidArgumentException {
@@ -37,7 +37,7 @@ public class FlipCommandParser extends CommandParser {
         } catch (InvalidArgumentException e) {
             throw new InvalidArgumentException("Invalid format. Please use: flip <id>");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid Card ID: ID entered is not a valid number");
+            throw new InvalidArgumentException("Invalid Card ID: ID entered is not a valid integer");
         }
 
         return new FlipCommand(id);
