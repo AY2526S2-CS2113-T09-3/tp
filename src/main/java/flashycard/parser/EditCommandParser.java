@@ -30,13 +30,16 @@ public class EditCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matcher = this.match(fullCommand);
-
+        Matcher matcher;
         int id;
+
         try {
-            id = Integer.parseInt(matcher.group("id").trim());
+            matcher = super.match(fullCommand);
+            id = Integer.parseInt(matcher.group("id"));
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format. Please use: edit ID [q/QUESTION] [a/ANSWER]");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid ID given: ID must be a number");
+            throw new InvalidArgumentException("Invalid Card ID: ID entered is not a valid number");
         }
 
         String question = matcher.group("question");

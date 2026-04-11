@@ -27,7 +27,7 @@ public class ExitCommandParser extends CommandParser {
      */
     @Override
     public ExitCommand parse(String fullCommand) throws InvalidArgumentException {
-        this.match(fullCommand);
+        super.match(fullCommand);
 
         return new ExitCommand();
     }

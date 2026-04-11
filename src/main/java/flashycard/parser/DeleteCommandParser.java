@@ -7,8 +7,8 @@ import flashycard.command.DeleteCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "delete" command.
- * It identifies the numeric ID of the flashcard that the user wants to remove.
+ * Parses user input specifically for the "delete" command. It identifies the
+ * numeric ID of the flashcard that the user wants to remove.
  */
 public class DeleteCommandParser extends CommandParser {
 
@@ -30,16 +30,20 @@ public class DeleteCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matches = this.match(fullCommand);
+        Matcher matches;
+        int id;
 
         try {
-            String idStr = matches.group("id").trim();
-            int id = Integer.parseInt(idStr);
-            return new DeleteCommand(id);
+            matches = super.match(fullCommand);
+            id = Integer.parseInt(matches.group("id").trim());
+
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format. Please use: delete <id>");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid ID given: ID must be a number");
+            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid number");
         }
 
+        return new DeleteCommand(id);
     }
 
 }

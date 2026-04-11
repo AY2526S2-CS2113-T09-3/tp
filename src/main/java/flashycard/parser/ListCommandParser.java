@@ -30,13 +30,17 @@ public class ListCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matcher = this.match(fullCommand);
-        String setName = matcher.group("setName");
+        try {
+            Matcher matcher = this.match(fullCommand);
+            String setName = matcher.group("setName");
 
-        if (setName != null) {
-            setName = setName.trim();
+            if (setName != null) {
+                setName = setName.trim();
+            }
+
+            return new ListCommand(setName);
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format for list command. Please use: list [s/<set_name>]");
         }
-
-        return new ListCommand(setName);
     }
 }

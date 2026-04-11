@@ -6,9 +6,8 @@ import flashycard.command.FlipCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input for the "flip" command.
- * It extracts the ID of the flashcard that the user wants to reveal the answer
- * for.
+ * Parses user input for the "flip" command. It extracts the ID of the flashcard
+ * that the user wants to reveal the answer for.
  */
 public class FlipCommandParser extends CommandParser {
 
@@ -29,16 +28,19 @@ public class FlipCommandParser extends CommandParser {
      */
     @Override
     public FlipCommand parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matches = this.match(fullCommand);
+        Matcher matcher;
+        int id;
 
         try {
-            String idStr = matches.group("id").trim();
-            int id = Integer.parseInt(idStr);
-            return new FlipCommand(id);
+            matcher = super.match(fullCommand);
+            id = Integer.parseInt(matcher.group("id"));
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format. Please use: flip <id>");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid ID given: ID must be a number");
+            throw new InvalidArgumentException("Invalid Card ID: ID entered is not a valid number");
         }
 
+        return new FlipCommand(id);
     }
 
 }

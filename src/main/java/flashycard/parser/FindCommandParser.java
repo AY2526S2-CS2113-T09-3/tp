@@ -6,17 +6,16 @@ import flashycard.command.FindCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "find" command.
- * It supports optional scoping to search within questions only (q/), answers
- * only (a/),
- * or both if no scope is provided.
+ * Parses user input specifically for the "find" command. It supports optional
+ * scoping to search within questions only (q/), answers only (a/), or both if
+ * no scope is provided.
  */
 public class FindCommandParser extends CommandParser {
     private static final String FIND_REGEX = "(?:(?<scope>[qa])/)?(?<keyword>.+)";
 
     /**
-     * Initializes the parser with the "find" keyword and the regex required
-     * to capture the optional scope and the mandatory search keyword.
+     * Initializes the parser with the "find" keyword and the regex required to
+     * capture the optional scope and the mandatory search keyword.
      */
     public FindCommandParser() {
         super("find", FIND_REGEX);
@@ -33,14 +32,19 @@ public class FindCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matcher = this.match(fullCommand);
-        String scope = matcher.group("scope");
-        String keyword = matcher.group("keyword").trim();
+        try {
+            Matcher matcher = this.match(fullCommand);
+            String scope = matcher.group("scope");
+            String keyword = matcher.group("keyword").trim();
 
-        if (keyword.isEmpty()) {
-            throw new InvalidArgumentException("Keyword cannot be empty.");
+            if (keyword.isEmpty()) {
+                throw new InvalidArgumentException("Keyword cannot be empty.");
+            }
+
+            return new FindCommand(keyword, scope);
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException(
+                    "Invalid find command format. Please use: find [q/|a/]<keyword>");
         }
-
-        return new FindCommand(keyword, scope);
     }
 }

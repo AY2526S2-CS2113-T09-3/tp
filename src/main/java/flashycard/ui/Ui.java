@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Handles all user interactions through the command-line interface.
- * Responsible for formatting output, displaying messages, and managing
- * the interactive study session loop.
+ * Handles all user interactions through the command-line interface. Responsible
+ * for formatting output, displaying messages, and managing the interactive
+ * study session loop.
  */
 public class Ui {
     private static final String DIVIDER = "------------------------------------------------";
@@ -36,8 +36,8 @@ public class Ui {
     }
 
     /**
-     * Runs an interactive study session where the user is shown questions,
-     * reveals answers, and self-reports correctness to get a final score.
+     * Runs an interactive study session where the user is shown questions, reveals
+     * answers, and self-reports correctness to get a final score.
      *
      * @param cards The list of cards to be studied in this session.
      */

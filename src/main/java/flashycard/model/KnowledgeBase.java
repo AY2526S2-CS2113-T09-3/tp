@@ -11,10 +11,9 @@ import java.util.stream.Collectors;
 import java.util.List;
 
 /**
- * Acts as the central storage for all flashcards and organized test sets.
- * It manages the lifecycle of cards, including adding, retrieving, and deleting
- * them,
- * as well as grouping them into named collections for testing.
+ * Acts as the central storage for all flashcards and organized test sets. It
+ * manages the lifecycle of cards, including adding, retrieving, and deleting
+ * them, as well as grouping them into named collections for testing.
  */
 public class KnowledgeBase {
     private HashMap<Integer, Card> cards;
@@ -105,9 +104,7 @@ public class KnowledgeBase {
      * @return A sorted set of unique tag strings.
      */
     public Set<String> getUniqueTags() {
-        return cards.values().stream()
-                .map(Card::getTag)
-                .collect(Collectors.toCollection(TreeSet::new));
+        return cards.values().stream().map(Card::getTag).collect(Collectors.toCollection(TreeSet::new));
     }
 
     /**

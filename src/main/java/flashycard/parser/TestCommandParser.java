@@ -6,14 +6,14 @@ import flashycard.command.TestCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "test" command.
- * It identifies the name of the test set that the user wishes to practice with.
+ * Parses user input specifically for the "test" command. It identifies the name
+ * of the test set that the user wishes to practice with.
  */
 public class TestCommandParser extends CommandParser {
 
     /**
-     * Initializes the parser with the "test" keyword and a regex to capture
-     * the mandatory test set name.
+     * Initializes the parser with the "test" keyword and a regex to capture the
+     * mandatory test set name.
      */
     public TestCommandParser() {
         super("test", "(?<setName>.+)");
@@ -29,12 +29,18 @@ public class TestCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matches = this.match(fullCommand);
+        Matcher matches;
+        String setName;
 
-        String setName = matches.group("setName").trim();
+        try {
+            matches = super.match(fullCommand);
+            setName = matches.group("setName").trim();
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid test command format. Usage: test <setName>");
+        }
 
         if (setName.isEmpty()) {
-            throw new InvalidArgumentException("Please provide a set name. Usage: test <setName>");
+            throw new InvalidArgumentException("Missing test set name. Usage: test <setName>");
         }
 
         return new TestCommand(setName);
