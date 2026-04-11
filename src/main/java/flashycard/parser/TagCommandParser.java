@@ -24,7 +24,7 @@ public class TagCommandParser extends CommandParser {
      *
      * @param fullCommand The raw input string from the user.
      * @return A new TagCommand instance containing the parsed ID and tag.
-     * @throws InvalidArgumentException If the ID is not a valid number or the
+     * @throws InvalidArgumentException If the ID is not a valid integer or the
      *                                  format is incorrect.
      */
     @Override
@@ -37,7 +37,7 @@ public class TagCommandParser extends CommandParser {
         } catch (InvalidArgumentException e) {
             throw new InvalidArgumentException("Invalid format. Please use: tag <id> t/<tag>");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid number");
+            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid integer");
         }
     }
 }

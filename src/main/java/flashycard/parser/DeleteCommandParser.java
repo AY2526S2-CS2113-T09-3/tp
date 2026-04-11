@@ -25,7 +25,7 @@ public class DeleteCommandParser extends CommandParser {
      *
      * @param fullCommand The raw input string from the user.
      * @return A new DeleteCommand instance targeting the specified ID.
-     * @throws InvalidArgumentException If the ID is not a valid number or the
+     * @throws InvalidArgumentException If the ID is not a valid integer or the
      *                                  format is incorrect.
      */
     @Override
@@ -40,7 +40,7 @@ public class DeleteCommandParser extends CommandParser {
         } catch (InvalidArgumentException e) {
             throw new InvalidArgumentException("Invalid format. Please use: delete <id>");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid number");
+            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid integer");
         }
 
         return new DeleteCommand(id);
