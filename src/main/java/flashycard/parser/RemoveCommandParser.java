@@ -47,7 +47,12 @@ public class RemoveCommandParser extends CommandParser {
         String[] parts = target.split("\\s+");
         for (String part : parts) {
             try {
-                idList.add(Integer.parseInt(part));
+                int id = Integer.parseInt(part);
+
+                if (!idList.contains(id)) {
+                    idList.add(id); // skip duplicated ids
+                }
+
             } catch (NumberFormatException e) {
                 throw new InvalidArgumentException(
                         "Invalid format. Please use: remove <id1 id2 ...> s/<setName> or remove all s/<setName>");
