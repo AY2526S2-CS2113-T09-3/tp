@@ -8,16 +8,15 @@ import flashycard.command.RemoveCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "remove" command.
- * It identifies which card IDs, or all cards, should be removed from a specific
- * test set.
+ * Parses user input specifically for the "remove" command. It identifies which
+ * card IDs, or all cards, should be removed from a specific test set.
  */
 public class RemoveCommandParser extends CommandParser {
     private static final String REMOVE_REGEX = "(?<target>all|[\\d\\s]+)\\s+s/(?<setName>.+)";
 
     /**
-     * Initializes the parser with the "remove" keyword and a regex to capture
-     * the target (specific IDs or "all") and the set name.
+     * Initializes the parser with the "remove" keyword and a regex to capture the
+     * target (specific IDs or "all") and the set name.
      */
     public RemoveCommandParser() {
         super("remove", REMOVE_REGEX);
@@ -34,7 +33,8 @@ public class RemoveCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matcher = this.match(fullCommand);
+
+        Matcher matcher = super.match(fullCommand);
 
         String target = matcher.group("target").trim().toLowerCase();
         String setName = matcher.group("setName").trim();
@@ -47,9 +47,15 @@ public class RemoveCommandParser extends CommandParser {
         String[] parts = target.split("\\s+");
         for (String part : parts) {
             try {
-                idList.add(Integer.parseInt(part));
+                int id = Integer.parseInt(part);
+
+                if (!idList.contains(id)) {
+                    idList.add(id); // skip duplicated ids
+                }
+
             } catch (NumberFormatException e) {
-                throw new InvalidArgumentException("ID '" + part + "' must be a valid number or 'all'.");
+                throw new InvalidArgumentException(
+                        "Invalid format. Please use: remove <id1 id2 ...> s/<setName> or remove all s/<setName>");
             }
         }
 

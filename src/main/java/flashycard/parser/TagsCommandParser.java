@@ -5,9 +5,8 @@ import flashycard.command.TagsCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input for the "tags" command.
- * This command has no arguments and is used to list all unique tags present
- * in the knowledge base.
+ * Parses user input for the "tags" command. This command has no arguments and
+ * is used to list all unique tags present in the knowledge base.
  */
 public class TagsCommandParser extends CommandParser {
 
@@ -28,7 +27,7 @@ public class TagsCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        this.match(fullCommand);
+        super.match(fullCommand);
         return new TagsCommand();
     }
 }

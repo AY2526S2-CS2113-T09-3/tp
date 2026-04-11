@@ -7,8 +7,8 @@ import flashycard.command.Command;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "add" command.
- * It expects a question prefixed with 'q/' and an answer prefixed with 'a/'.
+ * Parses user input specifically for the "add" command. It expects a question
+ * prefixed with 'q/' and an answer prefixed with 'a/'.
  */
 public class AddCommandParser extends CommandParser {
 
@@ -17,12 +17,12 @@ public class AddCommandParser extends CommandParser {
      * for capturing the question and answer groups.
      */
     public AddCommandParser() {
-        super("add", "q/(?<question>.+?)\\ba/(?<answer>.+)");
+        super("add", "q/(?<question>.+?)\\s+a/(?<answer>.+)");
     }
 
     /**
-     * Extracts the question and answer from the command string and creates
-     * a new AddCommand.
+     * Extracts the question and answer from the command string and creates a new
+     * AddCommand.
      *
      * @param fullCommand The raw input string from the user.
      * @return A new AddCommand instance containing the parsed data.
@@ -31,10 +31,19 @@ public class AddCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matches = this.match(fullCommand);
+        Matcher matches;
+        try {
+            matches = super.match(fullCommand);
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format. Please use: add q/<question> a/<answer>");
+        }
 
         String question = matches.group("question").trim();
         String answer = matches.group("answer").trim();
+
+        if (question.isEmpty() || answer.isEmpty()) {
+            throw new InvalidArgumentException("Question and answer cannot be empty.");
+        }
 
         return new AddCommand(question, answer);
     }

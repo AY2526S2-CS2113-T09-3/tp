@@ -6,15 +6,14 @@ import flashycard.command.TagCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "tag" command.
- * It identifies the numeric ID of a card and the tag string to be associated
- * with it.
+ * Parses user input specifically for the "tag" command. It identifies the
+ * numeric ID of a card and the tag string to be associated with it.
  */
 public class TagCommandParser extends CommandParser {
 
     /**
-     * Initializes the parser with the "tag" keyword and a regex pattern
-     * requiring a numeric ID and a tag prefixed with 't/'.
+     * Initializes the parser with the "tag" keyword and a regex pattern requiring a
+     * numeric ID and a tag prefixed with 't/'.
      */
     public TagCommandParser() {
         super("tag", "(?<id>\\d+)\\s+t/(?<tag>.+)\\s*");
@@ -30,13 +29,15 @@ public class TagCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matches = this.match(fullCommand);
         try {
-            int id = Integer.parseInt(matches.group("id"));
+            Matcher matches = super.match(fullCommand);
+            int id = Integer.parseInt(matches.group("id").trim());
             String tag = matches.group("tag").trim();
             return new TagCommand(id, tag);
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format. Please use: tag <id> t/<tag>");
         } catch (NumberFormatException e) {
-            throw new InvalidArgumentException("ID must be a valid number.");
+            throw new InvalidArgumentException("Invalid ID: ID entered is not a valid number");
         }
     }
 }

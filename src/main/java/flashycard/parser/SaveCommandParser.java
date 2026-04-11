@@ -6,18 +6,17 @@ import flashycard.command.SaveCommand;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * Parses user input specifically for the "save" command.
- * It handles the grouping of flashcards into named test sets by capturing
- * either a specific card ID or the "all" keyword, along with the target set
- * name.
+ * Parses user input specifically for the "save" command. It handles the
+ * grouping of flashcards into named test sets by capturing either a specific
+ * card ID or the "all" keyword, along with the target set name.
  */
 public class SaveCommandParser extends CommandParser {
 
     private static final String SAVE_REGEX = "(?<target>all|\\d+)\\s+s/(?<setName>.+)";
 
     /**
-     * Initializes the parser with the "save" keyword and a regex to capture
-     * the target cards and the set name prefixed by 's/'.
+     * Initializes the parser with the "save" keyword and a regex to capture the
+     * target cards and the set name prefixed by 's/'.
      */
     public SaveCommandParser() {
         super("save", SAVE_REGEX);
@@ -33,13 +32,21 @@ public class SaveCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
-        Matcher matcher = this.match(fullCommand);
+
+        Matcher matcher;
+
+        try {
+            matcher = super.match(fullCommand);
+        } catch (InvalidArgumentException e) {
+            throw new InvalidArgumentException("Invalid format. Please use: save <card_id|all> s/<set_name>");
+        }
 
         String target = matcher.group("target").trim();
         String setName = matcher.group("setName").trim();
 
         if (setName.isEmpty()) {
-            throw new InvalidArgumentException("Set name cannot be empty. Usage: save [ID/all] s/SET_NAME");
+            throw new InvalidArgumentException(
+                    "Set name cannot be empty. Usage: save <card_id|all> s/<set_name>");
         }
 
         return new SaveCommand(target, setName);

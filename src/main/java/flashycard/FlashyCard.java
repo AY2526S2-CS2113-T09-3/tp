@@ -9,9 +9,9 @@ import flashycard.storage.Storage;
 import flashycard.ui.Ui;
 
 /**
- * The main controller class for the FlashyCard application.
- * It coordinates the initialization of the UI, storage, and data models,
- * and maintains the primary execution loop for processing user commands.
+ * The main controller class for the FlashyCard application. It coordinates the
+ * initialization of the UI, storage, and data models, and maintains the primary
+ * execution loop for processing user commands.
  */
 public class FlashyCard {
     private Ui ui;
@@ -21,8 +21,8 @@ public class FlashyCard {
 
     /**
      * Initializes the application components and loads existing data from the
-     * storage file.
-     * If the data file is corrupted, it initializes an empty knowledge base.
+     * storage file. If the data file is corrupted, it initializes an empty
+     * knowledge base.
      *
      * @param filePath The local path to the data storage file.
      */
@@ -39,9 +39,9 @@ public class FlashyCard {
     }
 
     /**
-     * Starts the main application loop.
-     * Continuously reads user input, cleanses it, parses it into commands,
-     * and executes those commands until an exit signal is received.
+     * Starts the main application loop. Continuously reads user input, cleanses it,
+     * parses it into commands, and executes those commands until an exit signal is
+     * received.
      */
     public void run() {
         ui.showWelcome();
@@ -68,16 +68,15 @@ public class FlashyCard {
                 c.execute(knowledgeBase, ui, storage, sessionContainer);
                 isExit = c.isExit();
             } catch (Exception e) {
-                String hex = (fullCommand.length() > 0) ? Integer.toHexString(fullCommand.charAt(0)) : "empty";
-                ui.showError(e.getMessage() + " (CharHex: " + hex + "): [" + fullCommand + "]");
+                ui.showError(e.getMessage() + " [" + fullCommand + "]");
             }
         }
         ui.showExitMessage();
     }
 
     /**
-     * Entry point for the FlashyCard application.
-     * Resets default logging to clean up console output and starts the application.
+     * Entry point for the FlashyCard application. Resets default logging to clean
+     * up console output and starts the application.
      *
      * @param args Command-line arguments (not used).
      */

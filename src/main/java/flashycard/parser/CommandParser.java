@@ -7,9 +7,9 @@ import flashycard.command.Command;
 import flashycard.exceptions.InvalidArgumentException;
 
 /**
- * A base class for parsing user input into specific application commands.
- * It uses regular expressions to validate and extract arguments from the
- * command string.
+ * A base class for parsing user input into specific application commands. It
+ * uses regular expressions to validate and extract arguments from the command
+ * string.
  */
 public abstract class CommandParser {
     /** The keyword that identifies the command (e.g., "add", "delete"). */
