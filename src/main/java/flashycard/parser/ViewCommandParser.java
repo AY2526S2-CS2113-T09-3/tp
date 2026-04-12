@@ -39,9 +39,7 @@ public class ViewCommandParser extends CommandParser {
 
         } catch (InvalidArgumentException e) {
             throw new InvalidArgumentException("Invalid format. Please use: delete <id>");
-        }
-
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new InvalidArgumentException("Invalid ID: ID entered is not a valid integer");
         }
 
