@@ -226,21 +226,17 @@ public class Ui {
      * Displays the results of a search operation.
      *
      * @param results The list of cards matching the keyword.
-     * @param keyword The keyword used for searching.
+     * @param context The context or keyword used for searching (e.g., "all", "tag", or "find/keyword").
      */
     public void showSearchResults(java.util.List<Card> results, String context) {
-        // Step 1: Determine preposition based on the presence of a slash
         boolean isSearch = context.contains("/");
         String preposition = isSearch ? "matching" : "in";
 
-        // Step 2: Clean the display name ONLY if it's a search
         String displayName = context;
         if (isSearch) {
-            // This takes everything AFTER the slash (e.g., "q/paris" -> "paris")
             displayName = context.substring(context.indexOf("/") + 1);
         }
 
-        // Handle Empty Results
         if (results.isEmpty()) {
             if (context.equals("all")) {
                 System.out.println("Your knowledge base is currently empty.");
@@ -250,12 +246,12 @@ public class Ui {
 
             if (context.equals("q/") || context.equals("a/")) {
                 System.out.println("Tip: It looks like you're trying to use a search scope.");
-                System.out.println("     Ensure your keyword follows the prefix immediately (e.g., " + context + "java).");
+                System.out.println("     Ensure your keyword follows the prefix immediately " +
+                        "(e.g., " + context + "java).");
             }
             return;
         }
 
-        // Print Results Header using clean displayName
         System.out.println("Found " + results.size() + " card(s) " + preposition + " '" + displayName + "':");
         for (Card card : results) {
             System.out.println(card.getId() + ": Q: " + card.getQuestion() + " | A: " + card.getAnswer());
