@@ -33,8 +33,16 @@ public class TagCommandParser extends CommandParser {
             Matcher matches = super.match(fullCommand);
             int id = Integer.parseInt(matches.group("id").trim());
             String tag = matches.group("tag").trim();
+            String lowerTag = tag.toLowerCase();
+            if (lowerTag.equals("none") || lowerTag.equals("uncategorised")) {
+                throw new InvalidArgumentException(
+                        "Invalid tag name. 'uncategorised' and 'none' are reserved for internal use.");
+            }
             return new TagCommand(id, tag);
         } catch (InvalidArgumentException e) {
+            if (e.getMessage().contains("reserved")) {
+                throw e;
+            }
             throw new InvalidArgumentException("Invalid format. Please use: tag <id> t/<tag>");
         } catch (NumberFormatException e) {
             throw new InvalidArgumentException("Invalid ID: ID entered is not a valid integer");

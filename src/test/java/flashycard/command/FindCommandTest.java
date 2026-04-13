@@ -1,5 +1,6 @@
 package flashycard.command;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,7 @@ public class FindCommandTest {
         kb = new KnowledgeBase();
         ui = new Ui();
         storage = new Storage("dummy.txt");
+        session = new SessionContainer(); // FIXED: Initialize session to avoid NPE
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -40,9 +42,13 @@ public class FindCommandTest {
         command.execute(kb, ui, storage, session);
 
         String output = outputStream.toString();
-        assertTrue(output.contains("Found 2 card(s)"), "Should find two matches for 'Paris'");
+        // Updated to match your new UI: "Found X card(s) matching '...'"
+        assertTrue(output.contains("Found 2 card(s) matching 'Paris'"), "Should find two matches for 'Paris'");
         assertTrue(output.contains("capital of France"), "Should find Card 1");
         assertTrue(output.contains("Is Paris in Europe"), "Should find Card 3");
+
+        // Verify session storage
+        assertTrue(session.getLastSearchResults().size() == 2);
     }
 
     @Test
@@ -51,9 +57,9 @@ public class FindCommandTest {
         command.execute(kb, ui, storage, session);
 
         String output = outputStream.toString();
-        assertTrue(output.contains("Found 1 card(s)"), "Should only find 1 match in question scope");
+        assertTrue(output.contains("Found 1 card(s) matching 'Paris'"), "Should only find 1 match in question scope");
         assertTrue(output.contains("Is Paris in Europe"), "Card 3 should be present");
-        assertTrue(!output.contains("capital of France"), "Card 1 should be filtered out");
+        assertFalse(output.contains("capital of France"), "Card 1 should be filtered out (Paris is in the answer)");
     }
 
     @Test
@@ -62,8 +68,8 @@ public class FindCommandTest {
         command.execute(kb, ui, storage, session);
 
         String output = outputStream.toString();
-        assertTrue(output.contains("Found 1 card(s)"), "Should only find 1 match in answer scope");
-        assertTrue(output.contains("capital of France"), "Card 1 should be present");
+        assertTrue(output.contains("Found 1 card(s) matching 'Paris'"), "Should only find 1 match in answer scope");
+        assertTrue(output.contains("capital of France"), "Card 1 should be present (Paris is in the answer)");
     }
 
     @Test
@@ -82,6 +88,7 @@ public class FindCommandTest {
         command.execute(kb, ui, storage, session);
 
         String output = outputStream.toString();
-        assertTrue(output.contains("No cards found"), "Should inform user when no matches exist");
+        // Updated to match your new UI logic for results.isEmpty()
+        assertTrue(output.contains("No cards found matching 'nonexistent'"), "Should inform user using the 'matching' preposition");
     }
 }

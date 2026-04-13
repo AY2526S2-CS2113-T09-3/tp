@@ -16,7 +16,7 @@ public class EditCommandParser extends CommandParser {
      * ID and optional question/answer updates.
      */
     public EditCommandParser() {
-        super("edit", "(?<id>\\d+)(?:\\s+q/(?<question>.+?)(?=\\s+a/|$))?(?:\\s+a/(?<answer>.+))?");
+        super("edit", "(?<id>\\d+)(?:\\s+q/(?<question>.*?)(?=\\s+[qa]/|$))?(?:\\s+a/(?<answer>.*?)(?=\\s+[qa]/|$))?");
     }
 
     /**
@@ -30,6 +30,8 @@ public class EditCommandParser extends CommandParser {
      */
     @Override
     public Command parse(String fullCommand) throws InvalidArgumentException {
+        checkDuplicateFlags(fullCommand, "q/");
+        checkDuplicateFlags(fullCommand, "a/");
         Matcher matcher;
         int id;
 
@@ -47,16 +49,31 @@ public class EditCommandParser extends CommandParser {
 
         if (question != null) {
             question = question.trim();
+        } else {
+            question = null;
         }
         if (answer != null) {
             answer = answer.trim();
+        } else {
+            answer = null;
         }
 
-        if (question == null && answer == null) {
+        if ((question == null || question.isEmpty()) && (answer == null || answer.isEmpty())) {
             throw new InvalidArgumentException("Edit command requires at least q/QUESTION or a/ANSWER. "
                     + "Usage: edit ID [q/QUESTION] [a/ANSWER]");
         }
 
         return new EditCommand(id, question, answer);
     }
+
+    private void checkDuplicateFlags(String input, String flag) throws InvalidArgumentException {
+        int firstIndex = input.indexOf(flag);
+        if (firstIndex != -1) {
+            int secondIndex = input.indexOf(flag, firstIndex + flag.length());
+            if (secondIndex != -1) {
+                throw new InvalidArgumentException("Duplicate flag detected: " + flag);
+            }
+        }
+    }
+
 }

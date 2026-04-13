@@ -43,6 +43,7 @@ public class ListCommand extends Command {
         } else {
             List<Integer> ids = hb.getAllTestSets().get(setName);
             if (ids == null) {
+                session.setLastSearchResults(new ArrayList<>());
                 ui.showError("Test set '" + setName + "' does not exist.");
                 return;
             }

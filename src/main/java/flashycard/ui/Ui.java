@@ -55,13 +55,35 @@ public class Ui {
             showSessionProgress(currentNum, total);
             System.out.println("Question: " + current.getQuestion());
 
-            System.out.print("Press Enter to see the answer...");
-            scanner.nextLine();
+            System.out.print("Press Enter to see the answer (or type '/exit' to abort)...");
+            String peekInput = scanner.nextLine().trim().toLowerCase();
+
+            if (peekInput.equals("/exit")) {
+                System.out.println("Session aborted early.");
+                return;
+            }
 
             System.out.println("Answer: " + current.getAnswer());
-            System.out.print("Did you get it right? (y/n): ");
 
-            String feedback = scanner.nextLine().trim().toLowerCase();
+            String feedback = "";
+            boolean isValid = false;
+
+            while (!isValid) {
+                System.out.print("Did you get it right? (y/n) [or '/exit']: ");
+                feedback = scanner.nextLine().trim().toLowerCase();
+
+                if (feedback.equals("/exit")) {
+                    System.out.println("Session aborted early.");
+                    return;
+                }
+
+                if (feedback.equals("y") || feedback.equals("n")) {
+                    isValid = true;
+                } else {
+                    System.out.println("Invalid input. Please enter 'y', 'n', or '/exit'.");
+                }
+            }
+
             if (feedback.equals("y")) {
                 correctCount++;
                 System.out.println("Great job!");
@@ -150,7 +172,8 @@ public class Ui {
         } else {
             System.out.println("Here are the cards in your collection:");
             for (Card card : cards) {
-                System.out.println(card.getId() + ": " + card.getQuestion() + " [" + card.getTag() + "]");
+                String tagLabel = card.getTag().equals("none") ? "uncategorised" : card.getTag();
+                System.out.println(card.getId() + ": " + card.getQuestion() + " [" + tagLabel + "]");
             }
             System.out.println("Total: " + knowledgeBase.getSize() + " cards.");
         }
@@ -175,8 +198,8 @@ public class Ui {
             System.out.println("Your knowledge base has no tags.");
             return;
         }
-        boolean hasNone = tags.contains("none");
-        int categoryCount = hasNone ? tags.size() - 1 : tags.size();
+        boolean hasUntagged = tags.contains("none");
+        int categoryCount = hasUntagged ? tags.size() - 1 : tags.size();
 
         if (categoryCount > 0) {
             System.out.println("Here are your current categories:");
@@ -191,9 +214,9 @@ public class Ui {
             System.out.println("No custom categories created yet.");
         }
 
-        if (hasNone) {
+        if (hasUntagged) {
             System.out.println("------------------------------------------------");
-            System.out.println(" * Uncategorized cards [none]");
+            System.out.println(" * Uncategorised cards (No tags assigned)");
         }
 
         System.out.println("Total: " + categoryCount + " categories.");
@@ -205,13 +228,35 @@ public class Ui {
      * @param results The list of cards matching the keyword.
      * @param keyword The keyword used for searching.
      */
-    public void showSearchResults(java.util.List<Card> results, String keyword) {
+    public void showSearchResults(java.util.List<Card> results, String context) {
+        // Step 1: Determine preposition based on the presence of a slash
+        boolean isSearch = context.contains("/");
+        String preposition = isSearch ? "matching" : "in";
+
+        // Step 2: Clean the display name ONLY if it's a search
+        String displayName = context;
+        if (isSearch) {
+            // This takes everything AFTER the slash (e.g., "q/paris" -> "paris")
+            displayName = context.substring(context.indexOf("/") + 1);
+        }
+
+        // Handle Empty Results
         if (results.isEmpty()) {
-            System.out.println("No cards found matching: '" + keyword + "'");
+            if (context.equals("all")) {
+                System.out.println("Your knowledge base is currently empty.");
+            } else {
+                System.out.println("No cards found " + preposition + " '" + displayName + "'.");
+            }
+
+            if (context.equals("q/") || context.equals("a/")) {
+                System.out.println("Tip: It looks like you're trying to use a search scope.");
+                System.out.println("     Ensure your keyword follows the prefix immediately (e.g., " + context + "java).");
+            }
             return;
         }
 
-        System.out.println("Found " + results.size() + " card(s) matching '" + keyword + "':");
+        // Print Results Header using clean displayName
+        System.out.println("Found " + results.size() + " card(s) " + preposition + " '" + displayName + "':");
         for (Card card : results) {
             System.out.println(card.getId() + ": Q: " + card.getQuestion() + " | A: " + card.getAnswer());
         }
@@ -251,7 +296,7 @@ public class Ui {
         System.out.println(DIVIDER);
         System.out.println("Starting Session: " + sessionName);
         System.out.println("Total cards to review: " + total);
-        System.out.println("Type any key to see the answer, then 'y' for correct or 'n' for incorrect.");
+        System.out.println("Instructions: 'y' (correct), 'n' (incorrect), or '/exit' to stop.");
         System.out.println(DIVIDER);
     }
 
@@ -294,6 +339,9 @@ public class Ui {
      */
     public void showError(String message) {
         System.out.println("ERROR: " + message);
+        if (message.contains("Unrecognized command")) {
+            System.out.println("Type 'help' to see a list of available commands.");
+        }
     }
 
     /**

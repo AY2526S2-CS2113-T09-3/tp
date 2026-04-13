@@ -104,7 +104,8 @@ public class UiTest {
 
         assertTrue(output.contains("1. Android"), "First tag should be numbered 1");
         assertTrue(output.contains("2. Java"), "Second tag should be numbered 2");
-        assertTrue(output.contains("Uncategorized cards [none]"), "Status 'none' should be distinct");
+        assertTrue(output.contains("Uncategorised cards (No tags assigned)"),
+                "Status 'none' should be explained clearly");
         assertTrue(output.contains("Total: 2 categories"), "Count should exclude 'none'");
     }
 
@@ -126,7 +127,7 @@ public class UiTest {
         List<Card> results = new ArrayList<>();
         results.add(new Card(1, "What is Java?", "A language", "Coding"));
 
-        ui.showSearchResults(results, "Java");
+        ui.showSearchResults(results, "find/Java");
         String output = outputStream.toString();
 
         assertTrue(output.contains("Found 1 card(s)"), "Should show count of matches");
