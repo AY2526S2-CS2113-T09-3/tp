@@ -25,7 +25,7 @@ public class FindCommand extends Command {
      *                both.
      */
     public FindCommand(String keyword, String scope) {
-        this.keyword = keyword.toLowerCase();
+        this.keyword = keyword;
         this.scope = scope;
     }
 
@@ -39,10 +39,12 @@ public class FindCommand extends Command {
      */
     @Override
     public void execute(KnowledgeBase hb, Ui ui, Storage storage, SessionContainer session) {
+        String lowerKeyword = keyword.toLowerCase();
+
         List<Card> results = hb.getAllCards().stream()
                 .filter(card -> {
-                    boolean inQuestion = card.getQuestion().toLowerCase().contains(keyword);
-                    boolean inAnswer = card.getAnswer().toLowerCase().contains(keyword);
+                    boolean inQuestion = card.getQuestion().toLowerCase().contains(lowerKeyword);
+                    boolean inAnswer = card.getAnswer().toLowerCase().contains(lowerKeyword);
 
                     if ("q".equals(scope)) {
                         return inQuestion;
@@ -53,8 +55,9 @@ public class FindCommand extends Command {
                     return inQuestion || inAnswer;
                 })
                 .collect(Collectors.toList());
-
-        ui.showSearchResults(results, keyword);
+        String displayContext = (scope != null) ? scope + "/" + keyword : "find/" + keyword;
+        session.setLastSearchResults(results);
+        ui.showSearchResults(results, displayContext);
     }
 
     /**

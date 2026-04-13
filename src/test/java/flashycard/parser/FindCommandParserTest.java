@@ -18,7 +18,7 @@ public class FindCommandParserTest {
         FindCommand command = (FindCommand) parser.parse(input);
 
 
-        assertEquals("france", command.getKeyword(), "Keyword should be lowercased");
+        assertEquals("France", command.getKeyword(), "Keyword should be same as string");
         assertNull(command.getScope(), "Scope should be null for global search");
     }
 
@@ -27,7 +27,7 @@ public class FindCommandParserTest {
         String input = "find q/Paris";
         FindCommand command = (FindCommand) parser.parse(input);
 
-        assertEquals("paris", command.getKeyword());
+        assertEquals("Paris", command.getKeyword());
         assertEquals("q", command.getScope(), "Scope should be 'q'");
     }
 
@@ -36,7 +36,7 @@ public class FindCommandParserTest {
         String input = "find a/Napoleon";
         FindCommand command = (FindCommand) parser.parse(input);
 
-        assertEquals("napoleon", command.getKeyword());
+        assertEquals("Napoleon", command.getKeyword());
         assertEquals("a", command.getScope(), "Scope should be 'a'");
     }
 
@@ -45,7 +45,7 @@ public class FindCommandParserTest {
         String input = "find    q/   Ancient Rome   ";
         FindCommand command = (FindCommand) parser.parse(input);
 
-        assertEquals("ancient rome", command.getKeyword(), "Keyword should be trimmed and lowercased");
+        assertEquals("Ancient Rome", command.getKeyword(), "Keyword should be trimmed and lowercased");
         assertEquals("q", command.getScope());
     }
 
@@ -62,7 +62,7 @@ public class FindCommandParserTest {
         FindCommand command = (FindCommand) parser.parse(input);
 
         assertNull(command.getScope());
-        assertEquals("x/paris", command.getKeyword());
+        assertEquals("x/Paris", command.getKeyword());
     }
 
     @Test

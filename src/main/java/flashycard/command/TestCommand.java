@@ -68,6 +68,11 @@ public class TestCommand extends Command {
             }
         }
 
+        if (testCards.isEmpty()) {
+            ui.showError("No valid cards found in set '" + setName + "'.");
+            return;
+        }
+
         session.setLastSearchResults(testCards);
 
         if (ui != null) {

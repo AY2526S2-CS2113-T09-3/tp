@@ -23,7 +23,8 @@ public class Parser {
         new FindCommandParser(),
         new SaveCommandParser(),
         new RemoveCommandParser(),
-        new TestCommandParser()
+        new TestCommandParser(),
+        new HelpCommandParser(),
     };
 
     /**
