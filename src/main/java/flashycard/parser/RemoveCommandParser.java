@@ -50,7 +50,7 @@ public class RemoveCommandParser extends CommandParser {
                 int id = Integer.parseInt(part);
 
                 if (!idList.contains(id)) {
-                    idList.add(id); // skip duplicated ids
+                    idList.add(id);
                 }
 
             } catch (NumberFormatException e) {

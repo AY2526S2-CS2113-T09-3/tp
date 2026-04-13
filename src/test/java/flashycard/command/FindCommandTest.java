@@ -27,7 +27,7 @@ public class FindCommandTest {
         kb = new KnowledgeBase();
         ui = new Ui();
         storage = new Storage("dummy.txt");
-        session = new SessionContainer(); // FIXED: Initialize session to avoid NPE
+        session = new SessionContainer();
         outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
@@ -42,12 +42,10 @@ public class FindCommandTest {
         command.execute(kb, ui, storage, session);
 
         String output = outputStream.toString();
-        // Updated to match your new UI: "Found X card(s) matching '...'"
         assertTrue(output.contains("Found 2 card(s) matching 'Paris'"), "Should find two matches for 'Paris'");
         assertTrue(output.contains("capital of France"), "Should find Card 1");
         assertTrue(output.contains("Is Paris in Europe"), "Should find Card 3");
 
-        // Verify session storage
         assertTrue(session.getLastSearchResults().size() == 2);
     }
 
@@ -88,7 +86,7 @@ public class FindCommandTest {
         command.execute(kb, ui, storage, session);
 
         String output = outputStream.toString();
-        // Updated to match your new UI logic for results.isEmpty()
-        assertTrue(output.contains("No cards found matching 'nonexistent'"), "Should inform user using the 'matching' preposition");
+        assertTrue(output.contains("No cards found matching 'nonexistent'"),
+                "Should inform user using the 'matching' preposition");
     }
 }
