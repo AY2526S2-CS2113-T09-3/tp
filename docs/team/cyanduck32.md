@@ -46,3 +46,4 @@ remove: Removes one or more cards from a test set, or clears the entire set.
 * **Core Logic Integration:** Developed and integrated the `SessionContainer` early to allow team members to build commands that share state.
 * **Code Maintenance:** Managed Checkstyle configurations and conducted style fixes across the codebase to ensure consistency and quality.
 * **Setup:** Established the storage layer early so other commands could integrate with it from the start of development.
+* **Bug resolution:** Help fix reported bugs
