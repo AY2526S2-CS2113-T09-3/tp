@@ -1,17 +1,45 @@
+# Project: FlashyCard
+
+FlashyCard is a CLI-based flashcard application designed for power users and fast typists to facilitate efficient content memorization.
+
 ## Summary of Contributions
 
-### Enhancements Implemented
+### Technical Enhancements
 
-- **Architectural & OOP Design**: Spearheaded the entire Object-Oriented design of the application by establishing the core class structure, ensuring a clean separation of concerns between the **Model** (data management), **UI** (user interaction), **Parser** (logic processing), and **Storage** (persistence).
-- **Skeleton Code Implementation**: Authored the foundational skeleton code for the team, enabling parallel development by defining clear interfaces and abstract classes that team members could implement independently.
-- **Robust Parsing System**: Designed a regex-based parsing framework + implemented the base `CommandParser` logic and specific parsers for the various commands like `add`, `view`, and `delete` commands, ensuring that the system handles malformed input gracefully via custom exceptions.
-- **Core Logic & CRUD**: Developed the logic for managing flashcards within the `KnowledgeBase`, including the implementation of the `add`, `view`, and `delete` commands.
+**Architectural & OOP Design**
 
-### Contributions to the DG (Developer Guide)
+- Designed the application's Object-Oriented structure, enforcing a strict separation of concerns between the Model (data), UI (interaction), Parser (logic), and Storage (persistence).
 
-- **Architecture Design**: Help out with the section on the architecture of the system. I explained how the `FlashyCard` main class coordinates the interaction between the different components.
+- Developed the project’s initial skeleton code, defining abstract classes, interfaces, and custom exceptions to allow the team to begin parallel development immediately by providing a stable foundation.
 
-### Contributions to Team-Based Tasks
+**Parsing Framework**
 
-- **Architectural + Core Logic Integration**: Completed the OOP design and skeleton code early to allow team members to quickly start parallel development.
-- **Maintenance:** Ensured code style consistency across file and update the gradle build file.  M
+- Designed and implemented a regex-based parsing system to process user input.
+
+- Developed the `CommandParser` logic and specific implementations for the `add`, `view`, and `delete` parsers, ensuring malformed input is handled gracefully through custom exception handling.
+
+**In-Memory Storage**
+
+- Implemented the `KnowledgeBase` class to provide an abstraction for managing flashcard data structures.
+
+**Core Logic (CRUD)**
+
+- Built the underlying logic for executing core commands, specifically the addition, viewing, and deletion of cards within the system.
+
+### Documentation Contributions
+
+**User Guide (UG)**
+
+- Authored the initial draft of the User Guide, providing clear documentation for all basic CLI commands.
+
+**Developer Guide (DG)**
+
+- Contributed to the Architecture section, detailing how the `FlashyCard` main class coordinates interactions between the various system components.
+
+### Team-Based Tasks
+
+- **Integration**: Completed the core OOP design and skeleton code early in the lifecycle to minimize bottlenecks and provide a clear roadmap for the team.
+
+- **Maintenance & Standards**: Adhered to coding standards and style guidelines across the repository and updated the Gradle build configuration to maintain environment consistency.
+
+- **Bug Triage & Resolution**: Helped and managed the triaging and fixing of reported bugs.
