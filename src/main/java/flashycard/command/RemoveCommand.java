@@ -52,7 +52,7 @@ public class RemoveCommand extends Command {
             int count = hb.getAllTestSets().get(setName).size();
             hb.addTestSet(setName, new ArrayList<>());
             storage.save(hb);
-            System.out.println("Cleared all " + count + " card(s) from set [" + setName + "].");
+            ui.showMessage("Cleared all " + count + " card(s) from set [" + setName + "].");
         } else {
             // Case where specific cards are being removed
             int successCount = 0;
@@ -67,7 +67,7 @@ public class RemoveCommand extends Command {
 
             if (successCount > 0) {
                 storage.save(hb);
-                System.out.println("Removed " + successCount + " card(s) from set [" + setName + "].");
+                ui.showMessage("Removed " + successCount + " card(s) from set [" + setName + "].");
             }
         }
     }
