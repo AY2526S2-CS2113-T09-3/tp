@@ -38,7 +38,7 @@ public class ViewCommandParser extends CommandParser {
             id = Integer.parseInt(matches.group("id").trim());
 
         } catch (InvalidArgumentException e) {
-            throw new InvalidArgumentException("Invalid format. Please use: delete <id>");
+            throw new InvalidArgumentException("Invalid format. Please use: view <id>");
         } catch (NumberFormatException e) {
             throw new InvalidArgumentException("Invalid ID: ID entered is not a valid integer");
         }
