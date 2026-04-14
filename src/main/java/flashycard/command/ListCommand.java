@@ -51,7 +51,7 @@ public class ListCommand extends Command {
                 try {
                     cardsToShow.add(hb.getCardById(id));
                 } catch (Exception e) {
-                    System.err.println("Note: Card #" + id + " no longer exists.");
+                    ui.showError("Note: Card #" + id + " no longer exists.");
                 }
             }
         }
@@ -59,7 +59,7 @@ public class ListCommand extends Command {
         session.setLastSearchResults(cardsToShow);
 
         if (setName != null) {
-            System.out.println("Cards in set [" + setName + "]:");
+            ui.showMessage("Cards in set [" + setName + "]:");
         }
         cardsToShow.sort((x, y) -> Integer.compare(x.getId(), y.getId()));
         ui.showSearchResults(cardsToShow, setName == null ? "all" : setName);

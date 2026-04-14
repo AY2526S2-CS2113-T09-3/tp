@@ -63,7 +63,7 @@ public class TestCommand extends Command {
                 try {
                     testCards.add(hb.getCardById(id));
                 } catch (CardNotFoundException e) {
-                    System.err.println("Warning: Card ID " + id + " disappeared during set retrieval.");
+                    ui.showError("Warning: Card ID " + id + " disappeared during set retrieval.");
                 }
             }
         }
